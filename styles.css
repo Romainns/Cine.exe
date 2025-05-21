@@ -1,0 +1,55 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Parkinsans", sans-serif;
+}
+
+nav {
+    background-color: #000000;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    height: 85px;
+}
+
+nav img {
+    width: 150px;
+}
+
+nav li {
+    list-style: none;
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.moncompte {
+    border: 3px solid white;
+    padding: 5px 10px;
+}
+
+.gauche {
+    border-left: 3px solid white;
+    padding-left: 20px;
+}
+
+.droite {
+    margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
