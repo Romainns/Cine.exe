@@ -8,6 +8,8 @@ body {
     font-family: "Parkinsans", sans-serif;
 }
 
+/* NAV BAR */
+
 nav {
     background-color: #000000;
     padding: 10px;
@@ -52,4 +54,34 @@ nav a:hover {
     display: flex;
     justify-content: flex-end;
     padding-right: 20px;
+}
+
+/* TITRE */
+
+.titre {
+    background-image: url('img/fond3.jpeg');
+    background-size: cover;
+    background-position: right 50% bottom 40%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.titre h1 {
+    font-family: "Jaro", sans-serif;
+    font-size: 80px;
+    margin-bottom: 10px;
+    letter-spacing: 5px;
+}
+
+.titre h4 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 30px;
+    margin-bottom: 10px;
+    letter-spacing: 5px;
 }
