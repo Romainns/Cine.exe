@@ -45,6 +45,11 @@ nav a:hover {
     padding: 5px 10px;
 }
 
+.moncompte:hover {
+    background-color: white;
+    color: #000000;
+}
+
 .gauche {
     border-left: 3px solid white;
     padding-left: 20px;
@@ -77,7 +82,7 @@ nav a:hover {
     font-family: "Jaro", sans-serif;
     font-size: 80px;
     margin-bottom: 10px;
-    letter-spacing: 5px;
+    letter-spacing: 10px;
 }
 
 .titre h4 {
@@ -100,7 +105,7 @@ nav a:hover {
     background-image: url('img/fond8.jpeg');
     background-size: cover;
     background-position: center;
-    height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -191,4 +196,50 @@ footer {
 .footer-credits {
     font-size: 12px;
     margin-top: 10px;
+}
+
+/* Catalogue Contenu */
+
+.catalogue-contenu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.carte {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 300px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.carte:hover {
+    transform: scale(1.05);
+}
+
+.affiche {
+    width: 100%;
+    height: 400px;
+    display: block;
+}
+
+.infos {
+    padding: 15px;
+}
+
+.infos h3 {
+    font-family: "Quicksand", sans-serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.infos p {
+    font-size: 14px;
+    line-height: 1.4;
 }
