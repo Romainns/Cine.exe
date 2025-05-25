@@ -1,11 +1,18 @@
 <!DOCTYPE html>
+<!--Déclaration HTML-->
 <html lang="fr">
 <head>
+    <!--Métadonnées-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ciné.exe - Catalogue de films et séries</title>
+    <!-- Liens -->
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/icone logo.png">
+    <!-- SEO -->
+    <link rel="description" content="Ciné.exe est votre plateforme de référence pour découvrir les derniers films et séries en version numérique. Explorez notre catalogue riche et varié, et profitez d'une expérience cinématographique unique.">
+    <link rel="keywords" content="films, séries, catalogue, numérique, Ciné.exe">
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
@@ -13,9 +20,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- En-tête -->
     <header>
         <nav>
+            <!-- Logo -->
             <img src="img/logo couleur sans fond.png" alt="Logo Ciné.exe" class="nav-logo">
+            <!-- Liens Navbar -->
             <ul class="nav-liens gauche">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="">Séries</a></li>
@@ -25,43 +35,56 @@
                 <li><a class="moncompte" href="">Mon Compte</a></li>
             </ul>
         </nav>
+        <!-- Titre principal -->
         <div class="titre">
             <h1>Ciné.exe</h1>
             <h4>Le 7ème art en version numérique</h4>
         </div>
     </header>
+    
+    <!-- Transition avec du flou -->
     <div class="transition"></div>
+    
+    <!-- Contenu principal -->
     <main>
         <div class="catalogue">
+            <!-- Titre catalogue + recherche -->
             <div class="catalogue-header">
                 <h2>Catalogue Films & Séries</h2>
                 <div class="recherche">
                     <input type="text" placeholder="Rechercher un film ou une série...">
-                    <p class="erreur-recherche"></p>
                 </div>
             </div>
+            <!-- Catalogue -->
             <div class="catalogue-contenu">
-
             </div>
+            <!-- Pagination -->
             <div class="pagination">
-                <button class="precedent">Précédent</button>
-                <button class="suivant">Suivant</button>
             </div>
         </div>
     </main>
+    
+    <!-- Pied de page -->
     <footer>
         <div class="footer-contenu">
             <p>&copy; 2025 Ciné.exe. Tous droits réservés.</p>
             <ul class="reseaux-sociaux">
-                <li><a href="#"><img src="img/fb.png" alt="Facebook"></a></li>
-                <li><a href="#"><img src="img/github.png" alt="Github"></a></li>
-                <li><a href="#"><img src="img/insta.png" alt="Instagram"></a></li>
+                <li><a href="https://www.linkedin.com/in/romain-sintas-1028842b5/" target="_blank"><img src="img/linkedin.png" alt="Linkedin"></a></li>
+                <li><a href="https://www.instagram.com/rsintas40/" target="_blank"><img src="img/insta.png" alt="Instagram"></a></li>
+                <li><a href="https://github.com/Romainns" target="_blank"><img src="img/github.png" alt="Github"></a></li>
             </ul>
         </div>
         <div class="footer-credits">
-            <p>Développé par Romain Sintas</p>
+            <p>Développé par <i>Romain Sintas</i></p>
         </div>
     </footer>
+    
+    <!-- Popup -->
+    <div class="popup">
+        <div class="popup-content"></div>
+    </div>
+    
+    <!-- Script JS -->
     <script src="script.js"></script>
 </body>
 </html>
