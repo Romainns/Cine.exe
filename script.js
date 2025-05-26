@@ -15,7 +15,7 @@ const data = [
     { title: "Pulp Fiction", type: "Film", description: "Pulp Fiction est un film culte réalisé par Quentin Tarantino, connu pour sa narration non linéaire et ses dialogues mémorables, qui entrelace plusieurs histoires criminelles à Los Angeles.", year:1994, image: "img/affiche/pulp fiction.jpg", lien: "https://www.youtube.com/watch?v=h9041zYF5ZA" },
     { title: "The Mandalorian", type: "Série", description: "The Mandalorian est une série de science-fiction se déroulant dans l'univers de Star Wars, qui suit un chasseur de primes solitaire dans ses aventures à travers la galaxie.", year:2019, image: "img/affiche/mandalorian.jpg", lien: "https://www.youtube.com/watch?v=3QJypub6Yag" },
     { title: "The Godfather", type: "Film", description: "The Godfather est un film classique réalisé par Francis Ford Coppola, qui suit la famille mafieuse Corleone et son patriarche, Don Vito Corleone, dans le monde du crime organisé.", year:1972, image: "img/affiche/godfather.jpg", lien: "https://www.youtube.com/watch?v=bmtuIhesQWA" },
-    { title: "Black Mirror", type: "Série", description: "Black Mirror est une anthologie de science-fiction créée par Charlie Brooker, qui explore les conséquences imprévues des technologies modernes sur la société et les individus.", year:2011, image: "img/affiche/black mirror.webp", lien: "https://www.youtube.com/watch?v=d6-HaZ0zK6U" },
+    { title: "Black Mirror", type: "Série", description: "Black Mirror est une film de science-fiction créée par Charlie Brooker, qui explore les conséquences imprévues des technologies modernes sur la société et les individus.", year:2011, image: "img/affiche/black mirror.webp", lien: "https://www.youtube.com/watch?v=d6-HaZ0zK6U" },
     { title: "Fight Club", type: "Film", description: "Fight Club est un film culte réalisé par David Fincher, basé sur le roman de Chuck Palahniuk, qui suit un homme désillusionné qui fonde un club de combat clandestin pour échapper à sa vie monotone.", year:1999, image: "img/affiche/fight club.jpg", lien: "https://www.youtube.com/watch?v=c_Sf-XY3t-I" },
     { title: "The Office (US)", type: "Série", description: "The Office est une série comique américaine qui suit la vie quotidienne des employés d'une entreprise de vente de papier, Dunder Mifflin, à travers le regard d'un caméraman.", year:2005, image: "img/affiche/the office.webp", lien: "https://www.youtube.com/watch?v=-C2z-nshFts" },
     { title: "La Casa de Papel", type: "Série", description: "La Casa de Papel est une série espagnole qui suit un groupe de criminels qui planifient et exécutent le plus grand braquage de l'histoire, en prenant en otage des employés de la Monnaie royale d'Espagne.", year:2017, image: "img/affiche/la casa de papel.jpg", lien: "https://www.youtube.com/watch?v=0ULjL4cbSro" }
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const catalogueContenu = document.querySelector(".catalogue-contenu");
     const rechercheInput = document.querySelector(".recherche input");
     const erreurRecherche = document.querySelector(".erreur-recherche");
-    let filmsParPage = 6;
+    let filmsParPage = 10;
     let pageCourante = 1;
     let filtre = data;
 

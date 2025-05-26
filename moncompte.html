@@ -5,7 +5,7 @@
     <!--Métadonnées-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciné.exe - Catalogue de films et séries</title>
+    <title>Ciné.exe - Catalogue Mon Compte</title>
     <!-- Liens -->
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/icone logo.png">
@@ -19,7 +19,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
-<body>
     <!-- En-tête -->
     <header>
         <nav>
@@ -35,35 +34,33 @@
                 <li><a class="moncompte" href="moncompte.html">Mon Compte</a></li>
             </ul>
         </nav>
-        <!-- Titre principal -->
-        <div class="titre">
-            <h1>Ciné.exe</h1>
-            <h4>Le 7ème art en version numérique</h4>
-        </div>
+        <titre>
+            <h1>Mon Compte</h1>
+            <h4>Gérez vos informations et préférences</h4>
+        </titre>
     </header>
-    
-    <!-- Transition avec du flou -->
-    <div class="transition"></div>
-    
-    <!-- Contenu principal -->
-    <main>
-        <div class="catalogue">
-            <!-- Titre catalogue + recherche -->
-            <div class="catalogue-header">
-                <h2>Catalogue Films & Séries</h2>
-                <div class="recherche">
-                    <input type="text" placeholder="Rechercher un film ou une série...">
-                </div>
-            </div>
-            <!-- Catalogue -->
-            <div class="catalogue-contenu">
-            </div>
-            <!-- Pagination -->
-            <div class="pagination">
-            </div>
+    <div class="moncompte-container">
+        <div class="moncompte-header">
+            <h2>Bienvenue, [Nom d'utilisateur]</h2>
+            <p>Gérez vos informations personnelles et vos préférences.</p>
         </div>
-    </main>
-    
+        <div class="moncompte-content">
+            <form action="#" method="post" class="moncompte-form">
+                <label for="username">Nom d'utilisateur:</label>
+                <input type="text" id="username" name="username" value="[Nom d'utilisateur]" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="[Email]" required>
+                <label for="password">Mot de passe:</label>
+                <input type="password" id="password" name="password">
+                <button type="submit">Mettre à jour</button>
+            </form>
+        </div>
+        <div class="moncompte-actions">
+            <button class="delete-account">Supprimer le compte</button>
+            <button class="logout">Se déconnecter</button>
+        </div>
+    </div>
+
     <!-- Pied de page -->
     <footer>
         <div class="footer-contenu">
@@ -78,13 +75,3 @@
             <p>Développé par <i>Romain Sintas</i></p>
         </div>
     </footer>
-    
-    <!-- Popup -->
-    <div class="popup">
-        <div class="popup-content"></div>
-    </div>
-    
-    <!-- Script JS -->
-    <script src="script.js"></script>
-</body>
-</html>
