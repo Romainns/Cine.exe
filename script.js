@@ -155,6 +155,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const popup = document.querySelector(".popup");
         const popupContenu = document.querySelector(".popup-content");
 
+        const ancienEtatClick = popup.getAttribute("data-listener");
+        if (ancienEtatClick) {
+            document.removeEventListener("click", window[ancienEtatClick]);
+        }
+
         popupContenu.innerHTML = `
             <span class="fermer">&times;</span>
             <div class="popup-affiche">
@@ -169,10 +174,27 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         popup.style.display = "flex";
-        
+
+        // Fermer en cliquant sur le bouton fermer
         popup.querySelector(".fermer").addEventListener("click", () => {
             popup.style.display = "none";
         });
+
+        // Fermer en cliquant à l'extérieur du popup
+        const nouvelEtatClick = (e) => {
+            if (!popupContenu.contains(e.target)) {
+                popup.style.display = "none";
+                document.removeEventListener("click", nouvelEtatClick);
+            }
+        };
+
+        const Etat = "nouvelEtatClick_" + Date.now();
+        window[Etat] = nouvelEtatClick;
+        popup.setAttribute("data-listener", Etat);
+
+        setTimeout(() => {
+        document.addEventListener("click", nouvelEtatClick);
+        }, 0);
     }
 
     //Recherche par série
