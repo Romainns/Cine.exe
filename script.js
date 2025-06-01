@@ -199,16 +199,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Recherche par série
     document.getElementById("lien-series").addEventListener("click", (e) => {
-    e.preventDefault();
-    rechercheInput.value = "série";
-    rechercheInput.dispatchEvent(new Event("input"));
+        e.preventDefault();
+        rechercheInput.value = "série";
+        rechercheInput.dispatchEvent(new Event("input"));
     });
 
     //Recherche par film
     document.getElementById("lien-films").addEventListener("click", (e) => {
-    e.preventDefault();
-    rechercheInput.value = "film";
-    rechercheInput.dispatchEvent(new Event("input"));
+        e.preventDefault();
+        rechercheInput.value = "film";
+        rechercheInput.dispatchEvent(new Event("input"));
     });
 
     afficherCatalogue();
