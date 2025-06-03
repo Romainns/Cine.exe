@@ -39,7 +39,6 @@ const data = [
 document.addEventListener("DOMContentLoaded", () => {
     const catalogueContenu = document.querySelector(".catalogue-contenu");
     const rechercheInput = document.querySelector(".recherche input");
-    const erreurRecherche = document.querySelector(".erreur-recherche");
     let filmsParPage = 10;
     let pageCourante = 1;
     let filtre = data;
@@ -99,34 +98,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const totalPages = Math.ceil(filtre.length / filmsParPage);
 
-        //Bouton précédent
-        const btnPrecedent = document.createElement("button");
-        btnPrecedent.textContent = "Précédent";
-        btnPrecedent.disabled = pageCourante === 1;
-        btnPrecedent.addEventListener("click", () => {
-            if (pageCourante > 1) {
-                pageCourante--;
-                afficherCatalogue();
-            }
-        });
-        pagination.appendChild(btnPrecedent);
+        // Bouton précédent (affiché seulement si on est pas à la première page)
+        if (pageCourante > 1) {
+            const btnPrecedent = document.createElement("button");
+            btnPrecedent.textContent = "Précédent";
+            btnPrecedent.addEventListener("click", () => {
+                if (pageCourante > 1) {
+                    pageCourante--;
+                    afficherCatalogue();
+                }
+            });
+            pagination.appendChild(btnPrecedent);
+        }
 
-        //Affichage page actuelle
+        // Affichage page actuelle
         const infoPage = document.createElement("span");
         infoPage.textContent = ` Page ${pageCourante} sur ${totalPages} `;
         pagination.appendChild(infoPage);
 
-        //Bouton suivant
-        const btnSuivant = document.createElement("button");
-        btnSuivant.textContent = "Suivant";
-        btnSuivant.disabled = pageCourante === totalPages;
-        btnSuivant.addEventListener("click", () => {
-            if (pageCourante < totalPages) {
-                pageCourante++;
-                afficherCatalogue();
-            }
-        });
-        pagination.appendChild(btnSuivant);
+        // Bouton suivant (affiché seulement si on est pas à la dernière page)
+        if (pageCourante < totalPages) {
+            const btnSuivant = document.createElement("button");
+            btnSuivant.textContent = "Suivant";
+            btnSuivant.addEventListener("click", () => {
+                if (pageCourante < totalPages) {
+                    pageCourante++;
+                    afficherCatalogue();
+                }
+            });
+            pagination.appendChild(btnSuivant);
+        }
     }
 
     // Gestion de la recherche

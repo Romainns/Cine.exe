@@ -545,7 +545,7 @@ footer {
 
 /* Mon Compte */
 
-titre h1 {
+.titre-moncompte h1 {
     font-family: "Bebas Neue", sans-serif;
     font-size: 50px;
     color: white;
@@ -553,7 +553,7 @@ titre h1 {
     margin-top: 20px;
 }
 
-titre h4 {
+.titre-moncompte h4 {
     font-family: "Quicksand", sans-serif;
     font-size: 25px;
     color: white;

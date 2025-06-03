@@ -8,10 +8,7 @@
     <title>Ciné.exe - Catalogue Mon Compte</title>
     <!-- Liens -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="img/icone logo.png">
-    <!-- SEO -->
-    <link rel="description" content="Ciné.exe est votre plateforme de référence pour découvrir les derniers films et séries en version numérique. Explorez notre catalogue riche et varié, et profitez d'une expérience cinématographique unique.">
-    <link rel="keywords" content="films, séries, catalogue, numérique, Ciné.exe">
+    <link rel="icon" href="img/icone_logo.png">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +21,7 @@
     <header>
         <nav>
             <!-- Logo -->
-            <a href="index.html"><img src="img/logo couleur sans fond.png" alt="Logo Ciné.exe" class="nav-logo"></a>
+            <a href="index.html"><img src="img/logo_couleur_sans_fond.png" alt="Logo Ciné.exe" class="nav-logo"></a>
             <!-- Liens Navbar -->
             <ul class="nav-liens gauche">
                 <li><a href="index.html">Accueil</a></li>
@@ -33,31 +30,33 @@
                 <li><a class="moncompte" href="moncompte.html">Mon Compte</a></li>
             </ul>
         </nav>
-        <titre>
+    </header>
+    <main>
+        <div class="titre-moncompte">
             <h1>Mon Compte</h1>
             <h4>Gérez vos informations et préférences</h4>
-        </titre>
-    </header>
-    <div class="moncompte-container">
-        <div class="moncompte-header">
-            <h2>Bienvenue, [Nom d'utilisateur]</h2>
         </div>
-        <div class="moncompte-content">
-            <form action="#" method="post" class="moncompte-form">
-                <label for="username">Nom d'utilisateur:</label>
-                <input type="text" id="username" name="username" placeholder="[Nom d'utilisateur]" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="[Email]" required>
-                <label for="password">Mot de passe:</label>
-                <input type="password" id="password" name="password">
-                <button type="submit">Mettre à jour</button>
-            </form>
+        <div class="moncompte-container">
+            <div class="moncompte-header">
+                <h2>Bienvenue, [Nom d'utilisateur]</h2>
+            </div>
+            <div class="moncompte-content">
+                <form action="#" method="post" class="moncompte-form">
+                    <label for="username">Nom d'utilisateur:</label>
+                    <input type="text" id="username" name="username" placeholder="[Nom d'utilisateur]" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="[Email]" required>
+                    <label for="password">Mot de passe:</label>
+                    <input type="password" id="password" name="password">
+                    <button type="submit">Mettre à jour</button>
+                </form>
+            </div>
+            <div class="moncompte-actions">
+                <button class="delete-account">Supprimer le compte</button>
+                <button class="logout">Se déconnecter</button>
+            </div>
         </div>
-        <div class="moncompte-actions">
-            <button class="delete-account">Supprimer le compte</button>
-            <button class="logout">Se déconnecter</button>
-        </div>
-    </div>
+    </main>
     <!-- Pied de page -->
     <footer>
         <div class="footer-contenu">
