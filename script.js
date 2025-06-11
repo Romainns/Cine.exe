@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .catch(error => {
                 console.error("Erreur API OMDb:", error);
+                catalogueContenu.innerHTML = "<p>Erreur réseau ou limite de requêtes atteinte. Réessaie plus tard.</p>";
                 filtre = [];
                 totalResultats = 0;
                 afficherCatalogue();
@@ -266,5 +267,35 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             document.addEventListener("click", nouvelEtatClick);
         }, 0);
+    }
+
+    const lienSeries = document.getElementById("lien-series");
+    if (lienSeries) {
+        lienSeries.addEventListener("click", (e) => {
+            e.preventDefault();
+            typeSelect.value = "series";
+            pageCourante = 1;
+            fetchCatalogue(pageCourante);
+        });
+    }
+
+    const lienFilms = document.getElementById("lien-films");
+    if (lienFilms) {
+        lienFilms.addEventListener("click", (e) => {
+            e.preventDefault();
+            typeSelect.value = "movie";
+            pageCourante = 1;
+            fetchCatalogue(pageCourante);
+        });
+    }
+
+    const lienJeux = document.getElementById("lien-jeux");
+    if (lienJeux) {
+        lienJeux.addEventListener("click", (e) => {
+            e.preventDefault();
+            typeSelect.value = "game";
+            pageCourante = 1;
+            fetchCatalogue(pageCourante);
+        });
     }
 });
