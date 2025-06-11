@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let filmsParPage = 10;
     let pageCourante = 1;
     let recherche = "";
-    let totalResultats = 0;
     let filtre = [];
 
     function fetchCatalogue(page = 1) {
@@ -64,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     filtre = allResults.map(item => ({
                         title: item.Title,
-                        type: item.Type.charAt(0).toUpperCase() + item.Type.slice(1),
+                        type: item.Type === "series" ? "Série" : item.Type === "game" ? "Jeux vidéo" : "Film",
                         year: item.Year,
                         image: item.Poster !== "N/A" ? item.Poster : "img/defaut.png",
                         lien: `https://www.imdb.com/title/${item.imdbID}/`,
@@ -173,24 +172,53 @@ document.addEventListener("DOMContentLoaded", () => {
         const totalPages = Math.ceil(total / filmsParPage);
         if (totalPages <= 1) return;
 
+        // Bouton précédent
         if (pageCourante > 1) {
             const btnPrecedent = document.createElement("button");
-            btnPrecedent.textContent = "Précédent";
-            btnPrecedent.addEventListener("click", () => fetchCatalogue(pageCourante - 1));
+            btnPrecedent.textContent = "« Précédent";
+            btnPrecedent.addEventListener("click", () => {
+                pageCourante--;
+                afficherCatalogue();
+            });
             pagination.appendChild(btnPrecedent);
         }
 
-        const infoPage = document.createElement("span");
-        infoPage.textContent = ` Page ${pageCourante} sur ${totalPages} `;
-        pagination.appendChild(infoPage);
+        // Numéros de pages
+        const maxPagesToShow = 7;
+        let start = Math.max(1, pageCourante - Math.floor(maxPagesToShow / 2));
+        let end = Math.min(totalPages, start + maxPagesToShow - 1);
 
+        if (end - start < maxPagesToShow - 1) {
+            start = Math.max(1, end - maxPagesToShow + 1);
+        }
+
+        for (let i = start; i <= end; i++) {
+            const btnPage = document.createElement("button");
+            btnPage.textContent = i;
+            if (i === pageCourante) {
+                btnPage.disabled = true;
+                btnPage.classList.add("active"); // Ajoute une classe si tu veux du style
+            } else {
+                btnPage.addEventListener("click", () => {
+                    pageCourante = i;
+                    afficherCatalogue();
+                });
+            }
+            pagination.appendChild(btnPage);
+        }
+
+        // Bouton suivant
         if (pageCourante < totalPages) {
             const btnSuivant = document.createElement("button");
-            btnSuivant.textContent = "Suivant";
-            btnSuivant.addEventListener("click", () => fetchCatalogue(pageCourante + 1));
+            btnSuivant.textContent = "Suivant »";
+            btnSuivant.addEventListener("click", () => {
+                pageCourante++;
+                afficherCatalogue();
+            });
             pagination.appendChild(btnSuivant);
         }
     }
+
 
     function ouvrirPopup(item) {
         const popup = document.querySelector(".popup");

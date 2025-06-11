@@ -207,6 +207,14 @@ nav a:hover {
     font-weight: bold;
 }
 
+.pagination button.active {
+    font-weight: bold;
+    background-color: #444;
+    color: white;
+    cursor: default;
+}
+
+
 .filtres {
     display: flex;
     align-items: center;
