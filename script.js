@@ -4,7 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const catalogueContenu = document.querySelector(".catalogue-contenu");
     const rechercheInput = document.querySelector(".recherche input");
     const pagination = document.querySelector(".pagination");
+    const typeSelect = document.getElementById("type");
+    const anneeInput = document.getElementById("annee");
+
     catalogueContenu.innerHTML = "<p>Veuillez entrer des mots-clés.</p>";
+
     let filmsParPage = 10;
     let pageCourante = 1;
     let recherche = "";
@@ -18,26 +22,63 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(recherche)}&page=${page}`)
+        catalogueContenu.innerHTML = "<p>Chargement en cours...</p>";
+
+        let url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(recherche)}&page=1`;
+        const type = typeSelect.value.trim();
+        const annee = anneeInput.value.trim();
+
+        if (type !== "" && type !== "all") {
+            url += `&type=${type}`;
+        }
+
+        fetch(url)
             .then(response => response.json())
-            .then(dataAPI => {
+            .then(async dataAPI => {
                 if (dataAPI.Response === "True") {
-                    totalResultats = parseInt(dataAPI.totalResults, 10);
-                    filtre = dataAPI.Search.map(item => ({
+                    let allResults = dataAPI.Search;
+                    const totalAPIResults = parseInt(dataAPI.totalResults);
+                    const totalPages = Math.ceil(totalAPIResults / 10);
+
+                    // Si plusieurs pages, on récupère les suivantes
+                    const fetches = [];
+                    for (let i = 2; i <= totalPages; i++) {
+                        let nextUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(recherche)}&page=${i}`;
+                        if (type !== "" && type !== "all") {
+                            nextUrl += `&type=${type}`;
+                        }
+                        fetches.push(fetch(nextUrl).then(res => res.json()));
+                    }
+
+                    const results = await Promise.all(fetches);
+                    results.forEach(res => {
+                        if (res.Response === "True") {
+                            allResults = allResults.concat(res.Search);
+                        }
+                    });
+
+                    // Filtrage client par année
+                    if (annee !== "") {
+                        allResults = allResults.filter(item => item.Year === annee);
+                    }
+
+                    filtre = allResults.map(item => ({
                         title: item.Title,
                         type: item.Type.charAt(0).toUpperCase() + item.Type.slice(1),
                         year: item.Year,
                         image: item.Poster !== "N/A" ? item.Poster : "img/defaut.png",
                         lien: `https://www.imdb.com/title/${item.imdbID}/`,
-                        description: "Description indisponible via l'API." // Ajout par défaut si pas dispo
                     }));
+
+                    totalResultats = filtre.length;
+                    pageCourante = page;
+                    afficherCatalogue();
+
                 } else {
                     filtre = [];
                     totalResultats = 0;
+                    afficherCatalogue();
                 }
-
-                pageCourante = page;
-                afficherCatalogue();
             })
             .catch(error => {
                 console.error("Erreur API OMDb:", error);
@@ -53,6 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
         fetchCatalogue(pageCourante);
     });
 
+    typeSelect.addEventListener("change", () => {
+        pageCourante = 1;
+        fetchCatalogue(pageCourante);
+    });
+
+    anneeInput.addEventListener("input", () => {
+        pageCourante = 1;
+        fetchCatalogue(pageCourante);
+    });
+
     function afficherCatalogue() {
         catalogueContenu.innerHTML = "";
 
@@ -62,7 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        filtre.forEach((item, index) => {
+        const debut = (pageCourante - 1) * filmsParPage;
+        const fin = debut + filmsParPage;
+        const pageItems = filtre.slice(debut, fin);
+
+        pageItems.forEach((item, index) => {
             const carte = document.createElement("div");
             carte.classList.add("carte");
 
@@ -71,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="infos">
                     <h3>${item.title} <br>(${item.year})</h3>
                     <p><strong>Type :</strong> ${item.type}</p>
-                    <button class="voir-plus" data-index="${index}">Voir plus</button>
+                    <button class="voir-plus" data-index="${debut + index}">Voir plus</button>
                 </div>
             `;
 
@@ -81,11 +136,35 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".voir-plus").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 const index = e.target.dataset.index;
-                ouvrirPopup(filtre[index]);
+                const imdbID = filtre[index].lien.replace("https://www.imdb.com/title/", "").replace("/", "");
+
+                fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${imdbID}&plot=full`)
+                    .then(response => response.json())
+                    .then(details => {
+                        if (details.Response === "True") {
+                            const itemDetail = {
+                                title: details.Title,
+                                type: details.Type.charAt(0).toUpperCase() + details.Type.slice(1),
+                                year: details.Year,
+                                time: details.Runtime || "Durée non spécifiée",
+                                actors: details.Actors || "Acteurs non spécifiés",
+                                genre: details.Genre || "Genre non spécifié",
+                                image: details.Poster !== "N/A" ? details.Poster : "img/defaut.png",
+                                lien: `https://www.imdb.com/title/${details.imdbID}/`,
+                                description: details.Plot !== "N/A" ? details.Plot : "Description indisponible.",
+                            };
+                            ouvrirPopup(itemDetail);
+                        } else {
+                            console.error("Erreur détails API OMDb:", details.Error);
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Erreur réseau pour les détails:", err);
+                    });
             });
         });
 
-        afficherPagination(totalResultats);
+        afficherPagination(filtre.length);
     }
 
     function afficherPagination(total) {
@@ -128,10 +207,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="${item.image}" alt="Affiche de ${item.title}" class="popup-img" onerror="this.onerror=null; this.src='img/defaut.png';">
             </div>
             <div class="popup-infos">
-                <h3>${item.title} (${item.year})</h3>
+                <h3>${item.title}</h3>
                 <p><strong>Type :</strong> ${item.type}</p>
+                <p><strong>Année :</strong> ${item.year}</p>
+                <p><strong>Durée :</strong> ${item.time}</p>
+                <p><strong>Genre :</strong> ${item.genre}</p>
+                <p><strong>Acteurs :</strong> ${item.actors}</p>
                 <p class="popup-desc">${item.description}</p>
-                <button class="popup-lien"><a href="${item.lien}" target="_blank">Voir la bande annonce</a></button>
+                <button class="popup-lien"><a href="${item.lien}" target="_blank">Voir la page IMDb</a></button>
             </div>
         `;
 
