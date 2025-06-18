@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function fetchCatalogue(page = 1) {
         /* Si rien dans la barre de recherche */
-        if (recherche.trim() === "") {
+        if (recherche.trim() === "") { /* trim() pour enlever les espaces */
             catalogueContenu.innerHTML = "<p>Veuillez entrer des mots-clés.</p>";
             afficherPagination(0);
             return;
@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
         catalogueContenu.innerHTML = "<p>Chargement en cours...</p>"; 
 
         /* Création de l'URL pour l'API */        
-        let url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(recherche)}&page=1`;
-        const type = typeSelect.value.trim();
-        const annee = anneeInput.value.trim();
-        
+        let url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${(recherche)}&page=1`;
+        const type = typeSelect.value;
+        const annee = anneeInput.value;
+
         /* Rajoute le type si rentré */
         if (type !== "" && type !== "all") {
             url += `&type=${type}`;
@@ -40,14 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(async dataAPI => {
                 if (dataAPI.Response === "True") {
-                    let allResults = dataAPI.Search;
-                    const totalAPIResults = parseInt(dataAPI.totalResults);
-                    const totalPages = Math.ceil(totalAPIResults / 10);
+                    let allResults = dataAPI.Search; /* Récupère les résultats de la première page */
+                    const totalAPIResults = parseInt(dataAPI.totalResults); /* Convertit le total des résultats en entier */
+                    const totalPages = Math.ceil(totalAPIResults / 10); /* Calcule le nombre total de pages */
 
                     /* Refait des requêtes pour les pages suivantes si il y en a */
                     const fetches = [];
                     for (let i = 2; i <= totalPages; i++) {
-                        let nextUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(recherche)}&page=${i}`;
+                        let nextUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${(recherche)}&page=${i}`;
                         if (type !== "" && type !== "all") {
                             nextUrl += `&type=${type}`;
                         }
@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     /* Attends que toutes les requêtes soient finies */
                     const results = await Promise.all(fetches);
+                    /* Ajoute les résultats des pages suivantes */
                     results.forEach(res => {
                         if (res.Response === "True") {
                             allResults = allResults.concat(res.Search);
@@ -76,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         lien: `https://www.imdb.com/title/${item.imdbID}/`,
                     }));
 
+                    /* MAJ du nb de résultats et page courante */
                     totalResultats = filtre.length;
                     pageCourante = page;
                     afficherCatalogue();
@@ -121,13 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
         /* Résultats par page */
         const debut = (pageCourante - 1) * filmsParPage;
         const fin = debut + filmsParPage;
-        const pageItems = filtre.slice(debut, fin);
+        const pageItems = filtre.slice(debut, fin); /* slice pour obtenir les items de la page actuelle */
 
         /* Création des cartes */
         pageItems.forEach((item, index) => {
             const carte = document.createElement("div");
             carte.classList.add("carte");
-
             carte.innerHTML = `
                 <img src="${item.image}" alt="Affiche de ${item.title}" class="affiche" onerror="this.onerror=null; this.src='img/defaut.png';">
                 <div class="infos">
@@ -146,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const index = e.target.dataset.index;
                 const imdbID = filtre[index].lien.replace("https://www.imdb.com/title/", "").replace("/", "");
 
-                /* Récupération des détails de l'item */
+                /* Récupération des détails de l'item pour la popup */
                 fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${imdbID}&plot=full`)
                     .then(response => response.json())
                     .then(details => {
@@ -174,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function afficherPagination(total) {
         pagination.innerHTML = "";
 
-        const totalPages = Math.ceil(total / filmsParPage);
+        const totalPages = Math.ceil(total / filmsParPage); /* Calcule le nombre total de pages */
         if (totalPages <= 1) return;
 
         /* Bouton précédent */
@@ -268,6 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
+        /* Stockage écouteur global */
         const Etat = "nouvelEtatClick_" + Date.now();
         window[Etat] = nouvelEtatClick;
         popup.setAttribute("data-listener", Etat);
@@ -281,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const lienSeries = document.getElementById("lien-series");
     if (lienSeries) {
         lienSeries.addEventListener("click", (e) => {
-            e.preventDefault();
+            e.preventDefault(); /* Empêche le comportement par défaut du lien */
             typeSelect.value = "series";
             pageCourante = 1;
             fetchCatalogue(pageCourante);
