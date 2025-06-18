@@ -1,32 +1,37 @@
-const API_KEY = "170d8fb9";
+const API_KEY = "170d8fb9"; /* Clé API */
 
 document.addEventListener("DOMContentLoaded", () => {
+    /* Recherche des éléments de l'html */    
     const catalogueContenu = document.querySelector(".catalogue-contenu");
     const rechercheInput = document.querySelector(".recherche input");
     const pagination = document.querySelector(".pagination");
     const typeSelect = document.getElementById("type");
     const anneeInput = document.getElementById("annee");
 
-    catalogueContenu.innerHTML = "<p>Veuillez entrer des mots-clés.</p>";
+    catalogueContenu.innerHTML = "<p>Veuillez entrer des mots-clés.</p>"; /* Message par défaut */
 
-    let filmsParPage = 10;
+    let filmsParPage = 10; /* A changer selon le nombre de films par page à afficher */
+    /* Initialisation */
     let pageCourante = 1;
     let recherche = "";
     let filtre = [];
 
     function fetchCatalogue(page = 1) {
+        /* Si rien dans la barre de recherche */
         if (recherche.trim() === "") {
             catalogueContenu.innerHTML = "<p>Veuillez entrer des mots-clés.</p>";
             afficherPagination(0);
             return;
         }
 
-        catalogueContenu.innerHTML = "<p>Chargement en cours...</p>";
+        catalogueContenu.innerHTML = "<p>Chargement en cours...</p>"; 
 
+        /* Création de l'URL pour l'API */        
         let url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(recherche)}&page=1`;
         const type = typeSelect.value.trim();
         const annee = anneeInput.value.trim();
-
+        
+        /* Rajoute le type si rentré */
         if (type !== "" && type !== "all") {
             url += `&type=${type}`;
         }
@@ -39,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const totalAPIResults = parseInt(dataAPI.totalResults);
                     const totalPages = Math.ceil(totalAPIResults / 10);
 
-                    // Si plusieurs pages, on récupère les suivantes
+                    /* Refait des requêtes pour les pages suivantes si il y en a */
                     const fetches = [];
                     for (let i = 2; i <= totalPages; i++) {
                         let nextUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(recherche)}&page=${i}`;
@@ -49,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         fetches.push(fetch(nextUrl).then(res => res.json()));
                     }
 
+                    /* Attends que toutes les requêtes soient finies */
                     const results = await Promise.all(fetches);
                     results.forEach(res => {
                         if (res.Response === "True") {
@@ -56,11 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     });
 
-                    // Filtrage client par année
+                    /* Filtre les résultats selon l'année si renseignée */
                     if (annee !== "") {
                         allResults = allResults.filter(item => item.Year === annee);
                     }
 
+                    /* Récupération des données */
                     filtre = allResults.map(item => ({
                         title: item.Title,
                         type: item.Type === "series" ? "Série" : item.Type === "game" ? "Jeux vidéo" : "Film",
@@ -79,44 +86,44 @@ document.addEventListener("DOMContentLoaded", () => {
                     afficherCatalogue();
                 }
             })
-            .catch(error => {
-                console.error("Erreur API OMDb:", error);
-                catalogueContenu.innerHTML = "<p>Erreur réseau ou limite de requêtes atteinte. Réessaie plus tard.</p>";
-                filtre = [];
-                totalResultats = 0;
-                afficherCatalogue();
-            });
     }
 
+    /* Vérifie si des choses sont rentrées dans la recherche */
     rechercheInput.addEventListener("input", () => {
         recherche = rechercheInput.value.trim();
         pageCourante = 1;
         fetchCatalogue(pageCourante);
     });
 
+    /* Vérifie si le type a changé */    
     typeSelect.addEventListener("change", () => {
         pageCourante = 1;
         fetchCatalogue(pageCourante);
     });
 
+    /* Vérifie si l'année a changé */
     anneeInput.addEventListener("input", () => {
         pageCourante = 1;
         fetchCatalogue(pageCourante);
     });
 
+    /* Fonction pour afficher le catalogue */
     function afficherCatalogue() {
         catalogueContenu.innerHTML = "";
 
+        /* Si aucun résultat */
         if (filtre.length === 0) {
             catalogueContenu.innerHTML = "<p>Aucun résultat trouvé.</p>";
             afficherPagination(0);
             return;
         }
 
+        /* Résultats par page */
         const debut = (pageCourante - 1) * filmsParPage;
         const fin = debut + filmsParPage;
         const pageItems = filtre.slice(debut, fin);
 
+        /* Création des cartes */
         pageItems.forEach((item, index) => {
             const carte = document.createElement("div");
             carte.classList.add("carte");
@@ -133,15 +140,16 @@ document.addEventListener("DOMContentLoaded", () => {
             catalogueContenu.appendChild(carte);
         });
 
+        /* Si le bouton "Voir plus" est cliqué */
         document.querySelectorAll(".voir-plus").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 const index = e.target.dataset.index;
                 const imdbID = filtre[index].lien.replace("https://www.imdb.com/title/", "").replace("/", "");
 
+                /* Récupération des détails de l'item */
                 fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&i=${imdbID}&plot=full`)
                     .then(response => response.json())
                     .then(details => {
-                        if (details.Response === "True") {
                             const itemDetail = {
                                 title: details.Title,
                                 type: details.Type.charAt(0).toUpperCase() + details.Type.slice(1),
@@ -154,26 +162,22 @@ document.addEventListener("DOMContentLoaded", () => {
                                 description: details.Plot !== "N/A" ? details.Plot : "Description indisponible.",
                             };
                             ouvrirPopup(itemDetail);
-                        } else {
-                            console.error("Erreur détails API OMDb:", details.Error);
-                        }
-                    })
-                    .catch(err => {
-                        console.error("Erreur réseau pour les détails:", err);
                     });
             });
         });
 
         afficherPagination(filtre.length);
-    }
 
+    };
+
+    /* Fonction pour afficher la pagination */
     function afficherPagination(total) {
         pagination.innerHTML = "";
 
         const totalPages = Math.ceil(total / filmsParPage);
         if (totalPages <= 1) return;
 
-        // Bouton précédent
+        /* Bouton précédent */
         if (pageCourante > 1) {
             const btnPrecedent = document.createElement("button");
             btnPrecedent.textContent = "« Précédent";
@@ -184,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pagination.appendChild(btnPrecedent);
         }
 
-        // Numéros de pages
+        /* Affichage des numéros de page */
         const maxPagesToShow = 7;
         let start = Math.max(1, pageCourante - Math.floor(maxPagesToShow / 2));
         let end = Math.min(totalPages, start + maxPagesToShow - 1);
@@ -198,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btnPage.textContent = i;
             if (i === pageCourante) {
                 btnPage.disabled = true;
-                btnPage.classList.add("active"); // Ajoute une classe si tu veux du style
+                btnPage.classList.add("active");
             } else {
                 btnPage.addEventListener("click", () => {
                     pageCourante = i;
@@ -208,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pagination.appendChild(btnPage);
         }
 
-        // Bouton suivant
+        /* Bouton suivant */
         if (pageCourante < totalPages) {
             const btnSuivant = document.createElement("button");
             btnSuivant.textContent = "Suivant »";
@@ -220,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
+    /* Fonction pour ouvrir la popup */
     function ouvrirPopup(item) {
         const popup = document.querySelector(".popup");
         const popupContenu = document.querySelector(".popup-content");
@@ -230,6 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.removeEventListener("click", window[ancienEtatClick]);
         }
 
+        /* Création du contenu de la popup */
         popupContenu.innerHTML = `
             <span class="fermer">&times;</span>
             <div class="popup-affiche">
@@ -247,12 +252,15 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
+        /* Style de la popup */
         popup.style.display = "flex";
 
+        /* Gestion de la fermeture de la popup avec le bouton fermer */
         popup.querySelector(".fermer").addEventListener("click", () => {
             popup.style.display = "none";
         });
 
+        /* Gestion de la fermeture de la popup en cliquant à l'extérieur */
         const nouvelEtatClick = (e) => {
             if (!popupContenu.contains(e.target)) {
                 popup.style.display = "none";
@@ -269,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 0);
     }
 
+    /* Gestion du clic de la navbar pour le filtre série */
     const lienSeries = document.getElementById("lien-series");
     if (lienSeries) {
         lienSeries.addEventListener("click", (e) => {
@@ -279,6 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    /* Gestion du clic de la navbar pour le filtre film */
     const lienFilms = document.getElementById("lien-films");
     if (lienFilms) {
         lienFilms.addEventListener("click", (e) => {
@@ -289,6 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    /* Gestion du clic de la navbar pour le filtre jeux */
     const lienJeux = document.getElementById("lien-jeux");
     if (lienJeux) {
         lienJeux.addEventListener("click", (e) => {
@@ -297,5 +308,5 @@ document.addEventListener("DOMContentLoaded", () => {
             pageCourante = 1;
             fetchCatalogue(pageCourante);
         });
-    }
+    };
 });

@@ -8,13 +8,12 @@
 
 body {
     font-family: "Parkinsans", sans-serif;
-    background-color: #000000;
+    background-color: black
 }
 
 /* Navbar */
 
 nav {
-    padding: 10px;
     display: flex;
     align-items: center;
     height: 85px;
@@ -48,7 +47,7 @@ nav a:hover {
 
 .moncompte:hover {
     background-color: white;
-    color: #000000;
+    color: black;
 }
 
 .gauche {
@@ -60,29 +59,20 @@ nav a:hover {
     margin-left: auto;
     display: flex;
     justify-content: flex-end;
-    padding-right: 20px;
+    padding-right: 10px;
 }
 
 /* Navbar - Responsive */
 
-@media (max-width: 650px) {
-    nav {
-        align-items: center;
-    }
+@media (max-width: 730px) {
     nav img {
         width: 120px;
-    }
-    nav li {
-        display: block;
-        margin: 10px 0;
     }
     .gauche {
         display: none;
     }
     .droite {
-        width: 100%;
-        justify-content: flex-end;
-        padding: 10px;
+        width: 70%;
     }
     .moncompte {
         font-size: 14px;
@@ -96,9 +86,9 @@ nav a:hover {
     background-size: cover;
     background-position: right 50% bottom 40%;
     height: 300px;
+    width: auto;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     color: white;
     flex-direction: column;
     text-align: center;
@@ -121,7 +111,7 @@ nav a:hover {
 
 .transition {
     height: 30px;
-    background-color: #000000;
+    background-color: black;
     filter: blur(10px);
 }
 
@@ -139,16 +129,13 @@ nav a:hover {
 /* Catalogue */
 
 .catalogue {
-    height: 100%;
     display: flex;
-    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     padding: 10px;
 }
 
 .catalogue-header {
-    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -159,7 +146,6 @@ nav a:hover {
     font-size: 50px;
     color: white;
     margin-bottom: 20px;
-    text-align: center;
 }
 
 .recherche {
@@ -186,31 +172,19 @@ nav a:hover {
 }
 
 .pagination button {
-    background-color: #000000;
+    background-color: black;
     color: white;
     border: 2px solid white;
+    border-radius: 5px;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.pagination button:hover {
-    background-color: white;
-    color: #000000;
-}
-
-.pagination span {
-    color: white;
-    font-size: 16px;
-    margin: 0 10px;
-    font-weight: bold;
 }
 
 .pagination button.active {
     font-weight: bold;
-    background-color: #444;
-    color: white;
+    background-color: white;
+    color: black;
     cursor: default;
 }
 
@@ -218,7 +192,7 @@ nav a:hover {
 .filtres {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
 .filtres label {
@@ -233,6 +207,7 @@ nav a:hover {
     margin-right: 10px;
     padding: 5px 10px;
     font-size: 1rem;
+    border-radius: 5px;
 }
 
 /* Catalogue - Responsive */
@@ -248,8 +223,8 @@ nav a:hover {
     }
 
     .pagination {
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: row;
+        gap: 3px;
     }
 
     .pagination button {
@@ -261,6 +236,10 @@ nav a:hover {
     .pagination span {
         font-size: 14px;
         margin: 5px 0;
+    }
+
+    .filtres label {
+        font-size: 12px;
     }
 }
 
@@ -279,7 +258,6 @@ nav a:hover {
 }
 
 .carte {
-    background-color: black;
     border: 2px solid white;
     border-radius: 10px;
     overflow: hidden;
@@ -317,7 +295,7 @@ nav a:hover {
 .voir-plus {
     font-family: "Quicksand", sans-serif;
     font-weight: bold;
-    background-color: #000000;
+    background-color: black;
     color: white;
     border: 2px solid white;
     border-radius: 5px;
@@ -333,7 +311,7 @@ nav a:hover {
 
 .voir-plus:hover {
     background-color: white;
-    color: #000000;
+    color: black;
 }
 
 /* Catalogue Contenu - Responsive */
@@ -384,7 +362,7 @@ nav a:hover {
 .popup-content {
     display: flex;
     flex-wrap: wrap;
-    background-color: #111;
+    background-color: black;
     color: white;
     border: 2px solid white;
     border-radius: 10px;
@@ -427,8 +405,7 @@ nav a:hover {
     flex: 2 1 400px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    text-align: left;
+    text-align: justify;
     padding: 10px;
 }
 
@@ -451,18 +428,16 @@ nav a:hover {
 }
 
 .popup-lien {
-    display: inline-block;
     font-size: 16px;
     font-family: "Quicksand", sans-serif;
     background-color: white;
     color: black;
-    font-weight: bold;
+    font-weight: bolder;
     text-align: center;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     margin-top: 25px;
-    transition: background 0.2s;
 }
 
 .popup-lien a {
@@ -471,19 +446,21 @@ nav a:hover {
 }
 
 .popup-lien:hover {
-    background-color: #ddd;
+    background-color: black;
+    border: 2px solid white;
+}
+
+.popup-lien:hover a {
+    color: white;
 }
 
 /* Footer */
 
 footer {
-    background-color: #000000;
     color: white;
     text-align: center;
     padding: 20px;
     position: relative;
-    bottom: 0;
-    width: 100%;
 }
 
 .reseaux-sociaux {
@@ -545,7 +522,6 @@ footer {
 }
 
 .moncompte-content {
-    background-color: #111;
     border: 2px solid white;
     border-radius: 10px;
     padding: 20px;
@@ -569,25 +545,25 @@ footer {
     margin-bottom: 20px;
     border: 1px solid white;
     border-radius: 5px;
-    background-color: #222;
+    background-color: #212020;
     color: white;
     font-size: 16px;
 }
 
 .moncompte-form button {
-    background-color: #000000;
+    background-color: black;
     color: white;
     border: 2px solid white;
     padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-radius: 5px;
 }
 
 .moncompte-form button:hover {
     background-color: white;
-    color: #000000;
+    color: black;
 }
 
 .moncompte-actions {
@@ -597,7 +573,7 @@ footer {
 }
 
 .moncompte-actions button {
-    background-color: #000000;
+    background-color: black;
     color: rgb(150, 2, 2);
     border: 2px solid rgb(150, 2, 2);
     padding: 10px 20px;
@@ -606,7 +582,6 @@ footer {
     cursor: pointer;
     margin: 0 10px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
 }
 
 .moncompte-actions button:hover {
