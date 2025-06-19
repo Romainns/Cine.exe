@@ -5,7 +5,7 @@
     <!--Métadonnées-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciné.exe - Catalogue Mon Compte</title>
+    <title>Ciné.exe - Catalogue de films et séries</title>
     <!-- Liens -->
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/icone_logo.png">
@@ -25,41 +25,55 @@
             <!-- Liens Navbar -->
             <ul class="nav-liens gauche">
                 <li><a href="index.html">Accueil</a></li>
+                <li><a href="#" id="lien-films">Films</a></li>
+                <li><a href="#" id="lien-series">Séries</a></li>
+                <li><a href="#" id="lien-jeux">Jeux-Vidéo</a></li>
             </ul>
             <ul class="nav-liens droite">
-                <li><a class="moncompte" href="moncompte.html">Mon Compte</a></li>
+                <li><a class="moncompte" href="register.php">Mon Compte</a></li>
             </ul>
         </nav>
-    </header>
-    <main>
-        <!-- Titre Mon Compte -->
-        <div class="titre-moncompte">
-            <h1>Mon Compte</h1>
-            <h4>Gérez vos informations et préférences</h4>
+        <!-- Titre principal -->
+        <div class="titre">
+            <h1>Ciné.exe</h1>
+            <h4>Le 7ème art en version numérique</h4>
+            <?php 
+                echo "Aujourd'hui, nous sommes le " . date("d/m/Y") . ".";
+            ?>
         </div>
-        <!-- Contenu Mon Compte -->
-        <div class="moncompte-container">
-            <div class="moncompte-header">
-                <h2>Bienvenue, [Nom d'utilisateur]</h2>
+    </header>
+    <!-- Transition avec du flou -->
+    <div class="transition"></div>
+    <!-- Contenu principal -->
+    <main>
+        <div class="catalogue">
+            <!-- Titre catalogue + recherche + filtres -->
+            <div class="catalogue-header">
+                <h2>Catalogue Films & Séries</h2>
+                <div class="recherche">
+                    <input type="text" placeholder="Rechercher un film ou une série...">
+                </div>
+                <div class="filtres">
+                    <label for="type">Type :</label>
+                    <select id="type">
+                        <option value="">Tous</option>
+                        <option value="movie">Films</option>
+                        <option value="series">Séries</option>
+                        <option value="game">Jeux-Vidéos</option>
+                    </select>
+                    <label for="annee">Année :</label>
+                    <input type="number" id="annee" placeholder="Ex: 2020" min="1900" max="2099">
+                </div>
             </div>
-            <!-- Formulaire -->
-            <div class="moncompte-content">
-                <form action="#" method="post" class="moncompte-form">
-                    <label for="username">Nom d'utilisateur:</label>
-                    <input type="text" id="username" name="username" placeholder="[Nom d'utilisateur]" required>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="[Email]" required>
-                    <label for="password">Mot de passe:</label>
-                    <input type="password" id="password" name="password">
-                    <button type="submit">Mettre à jour</button>
-                </form>
+            <!-- Catalogue -->
+            <div class="catalogue-contenu">
             </div>
-            <div class="moncompte-actions">
-                <button class="delete-account">Supprimer le compte</button>
-                <button class="logout">Se déconnecter</button>
+            <!-- Pagination -->
+            <div class="pagination">
             </div>
         </div>
     </main>
+    
     <!-- Pied de page -->
     <footer>
         <div class="footer-contenu">
@@ -74,4 +88,13 @@
             <p>Développé par <i>Romain Sintas</i></p>
         </div>
     </footer>
+    
+    <!-- Popup -->
+    <div class="popup">
+        <div class="popup-content"></div>
+    </div>
+    
+    <!-- Script JS -->
+    <script src="script.js"></script>
 </body>
+</html>

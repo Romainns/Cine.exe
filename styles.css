@@ -188,6 +188,11 @@ nav a:hover {
     cursor: default;
 }
 
+.pagination button:hover {
+    background-color: white;
+    color: black;
+}
+
 
 .filtres {
     display: flex;
@@ -587,4 +592,11 @@ footer {
 .moncompte-actions button:hover {
     background-color: rgb(150, 2, 2);
     color: white;
+}
+
+.moncompte-message {
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
