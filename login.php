@@ -27,7 +27,7 @@
                 <li><a href="index.php">Accueil</a></li>
             </ul>
             <ul class="nav-liens droite">
-                <li><a class="moncompte" href="login.php">Se connecter</a></li>
+                <li><a class="moncompte" href="register.php">S'inscrire</a></li>
             </ul>
         </nav>
     </header>
@@ -35,77 +35,53 @@
         <!-- Titre Mon Compte -->
         <div class="titre-moncompte">
             <h1>Mon Compte</h1>
-            <h4>Créer votre compte Ciné.exe</h4>
+            <h4>Se connecter à votre compte Ciné.exe</h4>
         </div>
         <!-- Contenu Mon Compte -->
         <div class="moncompte-container">
             <div class="moncompte-header">
-                <h2>Formulaire d'inscription</h2>
+                <h2>Formulaire de connexion</h2>
             </div>
             <!-- Formulaire -->
             <div class="moncompte-content">
-                <form action="register.php" method="post" class="moncompte-form">
+                <form action="login.php" method="post" class="moncompte-form">
                     <label for="identifiant">Identifiant :</label>
                     <input type="text" id="identifiant" name="identifiant" placeholder="[Identifiant]" required>
-                    <label for="email">Email :</label>
-                    <input type="email" id="email" name="email" placeholder="[Email]" required>
                     <label for="motDePasse">Mot de passe :</label>
                     <input type="password" id="motDePasse" name="motDePasse" placeholder="[Mot de passe]" required>
-                    <button type="submit">Créer mon compte</button>
+                    <button type="submit">Se connecter</button>
                 </form>
             </div>
-            <!-- Php - gestion de l'inscription -->
+            <!-- Php - gestion de la connexion -->
             <div class="moncompte-message">
                 <?php
-                include 'database.php';
-                /*
-                // a decommenter pour tester la creation d'un utilisateur au chargement de la page, le requête est à adapter selon votre base
-                try {
-                $stmt = $db->prepare("INSERT INTO Utilisateur (identifiant, email, motDePasse) VALUES (?, ?, ?)");
-                $success = $stmt->execute(['testuser', 'test@example.com',password_hash('testpass', PASSWORD_DEFAULT)]);
-                if ($success) {
-                echo "Utilisateur ajouté avec succès (test statique).";
-                } else {
-                echo "Échec de l'insertion test.";
-                }
-                } catch (PDOException $e) {
-                echo "Erreur PDO (test) : " . $e->getMessage();
-                }*/
-                if ($_SERVER["REQUEST_METHOD"] === "POST") {
-                    $identifiant = $_POST['identifiant'];
-                    $email = $_POST['email'];
-                    $motDePasse = $_POST['motDePasse'];
-                if (!empty($identifiant) && !empty($email) && !empty($motDePasse)){
-                    $hashedPassword = password_hash($motDePasse, PASSWORD_DEFAULT);
-                try {
-                    $stmt = $db->prepare("INSERT INTO Utilisateur (identifiant, email, motDePasse) VALUES (?, ?, ?)");
-                    $success = $stmt->execute([$identifiant, $email, $hashedPassword]);
-                if ($success) {
-                    echo "Utilisateur inscrit avec succès.";
-                } else {
-                    $errorInfo = $stmt->errorInfo();
-                    echo "Erreur lors de l'inscription (échec de l'exécution) : " . implode(" | ", $errorInfo);
-                }
-                } catch (PDOException $e) {
-                    echo "Erreur PDO : " . $e->getMessage();
-                }
-                } else {
-                    echo "Tous les champs sont requis.";
-                }
-                }
-                /*
-                // si besoin de voir la liste des utilisateurs pour le debug ;)
-                echo "<h2>Utilisateurs enregistrés :</h2>";
-                foreach ($db->query("SELECT id, username, email FROM Utilisateur") as $row) {
-                echo "ID: {$row['id']} | Username: {$row['username']} | Email: {$row['email']}<br>";
-                }
-                */
+                    session_start();
+                    include 'database.php';
+                    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+                        $username = $_POST['identifiant'] ?? '';
+                        $password = $_POST['motDePasse'] ?? '';
+                    if (!empty($username) && !empty($password)) {
+                        $stmt = $db->prepare("SELECT id, identifiant, motDePasse FROM Utilisateur WHERE identifiant = :identifiant");
+                        $stmt->execute(['identifiant' => $username]);
+                        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if ($user && password_verify($password, $user['motDePasse'])) {
+                    // Connexion réussie
+                        $_SESSION['user_id'] = $user['id'];
+                        $_SESSION['username'] = $user['identifiant'];
+                        header("Location: index.php");
+                        exit();
+                    } else {
+                        $error = "Erreur identifiant / mot de passe";
+                    }
+                    } else {
+                        $error = "Tous les champs sont requis";
+                    }
+                    }
                 ?>
             </div>
-            <div class="lienversconnexion">
-                <p>Déjà inscrit ? <a href="login.php">Se connecter</a></p>
+            <div class="lienversinscription">
+                <p>Pas encore de compte ? <a href="register.php">Inscrivez-vous ici</a></p>
             </div>
-        </div>
     </main>
     <!-- Pied de page -->
     <footer>

@@ -17,29 +17,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
+    <?php
+        session_start();
+    ?>
     <!-- En-tête -->
     <header>
         <nav>
             <!-- Logo -->
-            <a href="index.html"><img src="img/logo_couleur_sans_fond.png" alt="Logo Ciné.exe" class="nav-logo"></a>
+            <a href="index.php"><img src="img/logo_couleur_sans_fond.png" alt="Logo Ciné.exe" class="nav-logo"></a>
             <!-- Liens Navbar -->
             <ul class="nav-liens gauche">
-                <li><a href="index.html">Accueil</a></li>
+                <li><a href="index.php">Accueil</a></li>
                 <li><a href="#" id="lien-films">Films</a></li>
                 <li><a href="#" id="lien-series">Séries</a></li>
                 <li><a href="#" id="lien-jeux">Jeux-Vidéo</a></li>
             </ul>
             <ul class="nav-liens droite">
-                <li><a class="moncompte" href="register.php">Mon Compte</a></li>
-            </ul>
+                <?php if (isset($_SESSION['username'])): ?>
+                <li>
+                    <span class="pseudo-connecte">Bonjour, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                </li>
+                <li>
+                    <form method="post" action="logout.php" style="display:inline;">
+                        <button type="submit" class="btn-deconnexion">Se déconnecter</button>
+                    </form>
+                </li>
+                <?php else: ?>
+                    <li><a class="moncompte" href="login.php">Se connecter</a></li>
+                <?php endif; ?>
+</ul>
         </nav>
         <!-- Titre principal -->
         <div class="titre">
             <h1>Ciné.exe</h1>
             <h4>Le 7ème art en version numérique</h4>
-            <?php 
-                echo "Aujourd'hui, nous sommes le " . date("d/m/Y") . ".";
-            ?>
         </div>
     </header>
     <!-- Transition avec du flou -->
