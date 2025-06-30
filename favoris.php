@@ -5,7 +5,7 @@
     <!--Métadonnées-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciné.exe - Catalogue de films et séries</title>
+    <title>Ciné.exe - Mes Favoris</title>
     <!-- Liens -->
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/icone_logo.png">
@@ -18,6 +18,26 @@
 </head>
 <?php
     session_start();
+
+    // Vérifie que l'utilisateur est connecté
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: login.php');
+        exit;
+    }
+
+    // Connexion à la BDD
+    require_once 'database.php'; // fichier avec connexion PDO
+
+    $userId = $_SESSION['user_id'];
+
+    // Requête pour récupérer les favoris de l'utilisateur
+    $sql = "SELECT O.titre, O.annee, O.type, O.afficheURL
+        FROM Favori F
+        JOIN Oeuvre O ON F.oeuvre_id = O.id
+        WHERE F.utilisateur_id = :utilisateur_id";
+    $stmt = $db->prepare($sql);
+    $stmt->execute(['utilisateur_id' => $userId]);
+    $favoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <body>
     <!-- En-tête -->
@@ -28,9 +48,6 @@
             <!-- Liens Navbar -->
             <ul class="nav-liens gauche">
                 <li><a href="index.php">Accueil</a></li>
-                <li><a href="#" id="lien-films">Films</a></li>
-                <li><a href="#" id="lien-series">Séries</a></li>
-                <li><a href="#" id="lien-jeux">Jeux-Vidéo</a></li>
             </ul>
             <ul class="nav-liens droite">
                 <?php if (isset($_SESSION['username'])): ?>
@@ -45,46 +62,33 @@
                 <?php else: ?>
                     <li><a class="moncompte" href="login.php">Se connecter</a></li>
                 <?php endif; ?>
-            </ul>
+            >
         </nav>
-        <!-- Titre principal -->
-        <div class="titre">
-            <h1>Ciné.exe</h1>
-            <h4>Le 7ème art en version numérique</h4>
-        </div>
     </header>
-    <!-- Transition avec du flou -->
-    <div class="transition"></div>
-    <!-- Contenu principal -->
     <main>
-        <div class="catalogue">
-            <!-- Titre catalogue + recherche + filtres -->
-            <div class="catalogue-header">
-                <h2>Catalogue Films & Séries</h2>
-                <div class="recherche">
-                    <input type="text" placeholder="Rechercher un film ou une série...">
+        <!-- Titre Mes Favoris -->
+        <div class="titre-favoris">
+            <h1>Mes Favoris</h1>
+            <h4>Tous vos films et séries préférés au même endroit</h4>
+        </div>
+        <div class="favoris-container">
+            <?php if (empty($favoris)): ?>
+                <p>Vous n'avez encore ajouté aucun favori.</p>
+            <?php else: ?>
+                <div class="catalogue-contenu">
+                    <?php foreach ($favoris as $fav): ?>
+                        <div class="carte">
+                            <img src="<?= htmlspecialchars($fav['afficheURL']) ?>" alt="Affiche de <?= htmlspecialchars($fav['titre']) ?>" class="affiche">
+                            <div class="infos">
+                                <h3><?= htmlspecialchars($fav['titre']) ?> <br>(<?= htmlspecialchars($fav['annee']) ?>)</h3>
+                                <p><strong>Type :</strong> <?= htmlspecialchars($fav['type']) ?></p>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-                <div class="filtres">
-                    <label for="type">Type :</label>
-                    <select id="type">
-                        <option value="">Tous</option>
-                        <option value="movie">Films</option>
-                        <option value="series">Séries</option>
-                        <option value="game">Jeux-Vidéos</option>
-                    </select>
-                    <label for="annee">Année :</label>
-                    <input type="number" id="annee" placeholder="Ex: 2020" min="1900" max="2099">
-                </div>
-            </div>
-            <!-- Catalogue -->
-            <div class="catalogue-contenu">
-            </div>
-            <!-- Pagination -->
-            <div class="pagination">
-            </div>
+            <?php endif; ?>
         </div>
     </main>
-    
     <!-- Pied de page -->
     <footer>
         <div class="footer-contenu">
@@ -99,14 +103,5 @@
             <p>Développé par <i>Romain Sintas</i></p>
         </div>
     </footer>
-    
-    <!-- Popup -->
-    <div class="popup">
-        <div class="popup-content"></div>
-    </div>
-    
-    <!-- Script JS -->
-    <script>const userIsLoggedIn = <?= isset($_SESSION['user_id']) ? 'true' : 'false' ?>;</script>
-    <script src="script.js"></script>
 </body>
 </html>

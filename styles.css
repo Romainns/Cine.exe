@@ -471,6 +471,7 @@ nav a:hover {
     border: none;
     border-radius: 5px;
     margin-top: 25px;
+    cursor: pointer;
 }
 
 .popup-lien a {
@@ -483,8 +484,36 @@ nav a:hover {
     border: 2px solid white;
 }
 
-.popup-lien:hover a {
+.popup-lien:hover a, .popup-lien:hover {
     color: white;
+}
+
+.popup-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btn-favori {
+    background-color: chartreuse;
+    color: black;
+    border: 2px solid white;
+}
+
+.btn-favori:hover {
+    background-color: darkgreen;
+}
+
+.btn-retirer-favoris {
+    background-color: red;
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-retirer-favoris:hover {
+    background-color: darkred;
 }
 
 /* Footer */
@@ -625,4 +654,39 @@ footer {
     color: white;
     font-size: 16px;
     margin-top: 10px;
+}
+
+/* Favoris */
+
+.titre-favoris h1 {
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 50px;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.titre-favoris h4 {
+    font-family: "Quicksand", sans-serif;
+    font-size: 25px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.favoris-header {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.favoris-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: white;
 }

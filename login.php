@@ -5,7 +5,7 @@
     <!--Métadonnées-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciné.exe - Mon Compte</title>
+    <title>Ciné.exe - Connexion</title>
     <!-- Liens -->
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/icone_logo.png">
@@ -98,3 +98,4 @@
         </div>
     </footer>
 </body>
+</html>

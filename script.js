@@ -1,4 +1,4 @@
-const API_KEY = "170d8fb9"; /* Clé API */
+const API_KEY = "e65f92e8"; /* Clé API */
 
 document.addEventListener("DOMContentLoaded", () => {
     /* Recherche des éléments de l'html */    
@@ -15,6 +15,27 @@ document.addEventListener("DOMContentLoaded", () => {
     let pageCourante = 1;
     let recherche = "";
     let filtre = [];
+
+    async function estFavori(imdbId) {
+        try {
+            // Envoie une requête GET vers le script PHP, avec l'identifiant du film ou de la série
+            const response = await fetch('est_favori.php?imdb_id=' + encodeURIComponent(imdbId));
+            // Attend la réponse complète du serveur, et la lit comme texte
+            const text = await response.text();
+            try {   
+            // Tente de convertir le texte en objet JSON et retourne la valeur de "estFavori"
+                return JSON.parse(text).estFavori;
+            } catch (e) {
+            // Si la réponse n'est pas un JSON valide, on affiche l'erreur dans la console
+                console.error("Réponse non JSON:", text);
+                return false; // Par défaut on considère que ce n’est pas un favori
+            }
+        } catch (err) {
+            // Si une erreur réseau ou serveur empêche la requête de fonctionner
+            console.error("Erreur fetch:", err);
+            return false;
+        }
+    }
 
     function fetchCatalogue(page = 1) {
         /* Si rien dans la barre de recherche */
@@ -70,8 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     /* Récupération des données */
                     filtre = allResults.map(item => ({
+                        imdbID: item.imdbID,
                         title: item.Title,
-                        type: item.Type === "series" ? "Série" : item.Type === "game" ? "Jeux vidéo" : "Film",
+                        type: item.Type === "series" ? "Série" : item   .Type === "game" ? "Jeux vidéo" : "Film",
                         year: item.Year,
                         image: item.Poster !== "N/A" ? item.Poster : "img/defaut.png",
                         lien: `https://www.imdb.com/title/${item.imdbID}/`,
@@ -152,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .then(response => response.json())
                     .then(details => {
                             const itemDetail = {
+                                imdbID: details.imdbID,
                                 title: details.Title,
                                 type: details.Type.charAt(0).toUpperCase() + details.Type.slice(1),
                                 year: details.Year,
@@ -226,13 +249,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* Fonction pour ouvrir la popup */
-    function ouvrirPopup(item) {
+    async function ouvrirPopup(item) {
         const popup = document.querySelector(".popup");
         const popupContenu = document.querySelector(".popup-content");
+        const isFav = await estFavori(item.imdbID);
 
         const ancienEtatClick = popup.getAttribute("data-listener");
         if (ancienEtatClick) {
             document.removeEventListener("click", window[ancienEtatClick]);
+        }
+
+        let boutonFavori = "";
+        if (typeof userIsLoggedIn !== "undefined" && userIsLoggedIn) {
+            const imdbId = item.imdbID;
+            const texteBouton = isFav ? "Retirer des favoris" : "Ajouter aux favoris";
+            const classeBouton = isFav ? "btn-retirer-favoris" : "btn-favori";
+
+            boutonFavori = `<button class="popup-lien ${classeBouton}" data-imdbid="${imdbId}" data-title="${item.title}" data-type="${item.type}" data-year="${item.year}" data-poster="${item.image}">${texteBouton}</button>`;
+        } else {
+            boutonFavori = `<button class="popup-lien" onclick="alert('Veuillez vous connecter à votre compte pour ajouter ce film aux favoris.');">Ajouter aux favoris</button>`;
         }
 
         /* Création du contenu de la popup */
@@ -249,10 +284,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Genre :</strong> ${item.genre}</p>
                 <p><strong>Acteurs :</strong> ${item.actors}</p>
                 <p class="popup-desc">${item.description}</p>
-                <button class="popup-lien"><a href="${item.lien}" target="_blank">Voir la page IMDb</a></button>
+                <div class="popup-actions"> 
+                    <button class="popup-lien"><a href="${item.lien}" target="_blank">Voir la page IMDb</a></button>
+                    ${boutonFavori}
+                </div>
             </div>
         `;
-
+        
         /* Style de la popup */
         popup.style.display = "flex";
 
@@ -277,7 +315,46 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             document.addEventListener("click", nouvelEtatClick);
         }, 0);
+
+        /* Gestion des favoris */
+        const btnFavori = popup.querySelector(".btn-favori, .btn-retirer-favoris");
+        if (btnFavori) {
+            btnFavori.addEventListener("click", async () => {
+                const formData = new FormData();
+                formData.append('id', btnFavori.dataset.imdbid);
+                formData.append('titre', btnFavori.dataset.title);
+                formData.append('annee', btnFavori.dataset.year);
+                formData.append('type', btnFavori.dataset.type);
+                formData.append('affiche', btnFavori.dataset.poster);
+
+                try {
+                    const res = await fetch("favoris_actions.php", {
+                        method: "POST",
+                        body: formData
+                    });
+                    const result = await res.json();
+
+                    if (result.success) {
+                        if (result.action === "ajouté") {
+                            btnFavori.textContent = "Retirer des favoris";
+                            btnFavori.classList.remove("btn-favori");
+                            btnFavori.classList.add("btn-retirer-favoris");
+                        } else if (result.action === "supprimé") {
+                            btnFavori.textContent = "Ajouter aux favoris";
+                            btnFavori.classList.remove("btn-retirer-favoris");
+                            btnFavori.classList.add("btn-favori");
+                        }
+                    } else {
+                        alert("Erreur : " + result.message);
+                    }
+                } catch (error) {
+                    console.error("Erreur lors de l'envoi :", error);
+                    alert("Une erreur est survenue.");
+                }
+            });
+        }
     }
+
 
     /* Gestion du clic de la navbar pour le filtre série */
     const lienSeries = document.getElementById("lien-series");
@@ -312,3 +389,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 });
+
