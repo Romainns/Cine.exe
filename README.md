@@ -2,7 +2,7 @@
 
 ## Présentation rapide
 
-**Nom du projet** : Ciné.exe
+**Nom du projet** : Ciné.exe\
 **Objectif** : Permettre à un utilisateur de rechercher des films ou séries via l’API OMDB, et de les consulter via une interface web.
 
 ### Fonctionnalités principales
