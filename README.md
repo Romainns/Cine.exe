@@ -111,13 +111,13 @@ C:.\
 2. Installer les dépendances :\
     ```composer install```
 
-3. Configurer le .env :
+3. Configurer le .env :\
     Créer un fichier .env à la racine avec le contenu suivant :\
         DB_PATH=<chemin de la bdd.db>\
         OMDB_API_KEY=<API_KEY>
 
 4. Démarrer un serveur PHP :\
-    php -S localhost:8000 -t public
+    ```php -S localhost:8000 -t public```
 
 ## Base de données  
 
