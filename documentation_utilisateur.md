@@ -69,7 +69,7 @@ Si vous n'avez pas de compte :
 
 ## 7. Support
 
-En cas de problème ou de bug, veuillez contacter le développeur à l’adresse suivante :\ 
+En cas de problème ou de bug, veuillez contacter le développeur à l’adresse suivante :
 📧 *romain.sintas@campuslandes.com*
 
 ---
