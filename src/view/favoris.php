@@ -1,14 +1,36 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Vérifie que l'utilisateur est connecté
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../../router.php?page=login');
+    exit;
+}
+
+// Connexion à la BDD
+include './src/config/database.php';
+
+$userId = $_SESSION['user_id'];
+
+// Requête pour récupérer les favoris de l'utilisateur
+$sql = "SELECT O.titre, O.annee, O.type, O.afficheURL
+        FROM Favori F
+        JOIN Oeuvre O ON F.oeuvre_id = O.id
+        WHERE F.utilisateur_id = :utilisateur_id";
+$stmt = $db->prepare($sql);
+$stmt->execute(['utilisateur_id' => $userId]);
+$favoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
-<!--Déclaration HTML-->
 <html lang="fr">
 <head>
-    <!--Métadonnées-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ciné.exe - Mes Favoris</title>
-    <!-- Liens -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="img/icone_logo.png">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" href="/img/icone_logo.png">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,53 +38,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
-<?php
-    session_start();
-
-    // Vérifie que l'utilisateur est connecté
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: login.php');
-        exit;
-    }
-
-    // Connexion à la BDD
-    require_once 'database.php'; // fichier avec connexion PDO
-
-    $userId = $_SESSION['user_id'];
-
-    // Requête pour récupérer les favoris de l'utilisateur
-    $sql = "SELECT O.titre, O.annee, O.type, O.afficheURL
-        FROM Favori F
-        JOIN Oeuvre O ON F.oeuvre_id = O.id
-        WHERE F.utilisateur_id = :utilisateur_id";
-    $stmt = $db->prepare($sql);
-    $stmt->execute(['utilisateur_id' => $userId]);
-    $favoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
 <body>
     <!-- En-tête -->
     <header>
         <nav>
             <!-- Logo -->
-            <a href="index.php"><img src="img/logo_couleur_sans_fond.png" alt="Logo Ciné.exe" class="nav-logo"></a>
+            <a href="../../router.php?page=home"><img src="/img/logo_couleur_sans_fond.png" alt="Logo Ciné.exe" class="nav-logo"></a>
             <!-- Liens Navbar -->
             <ul class="nav-liens gauche">
-                <li><a href="index.php">Accueil</a></li>
+                <li><a href="../../router.php?page=home">Accueil</a></li>
             </ul>
             <ul class="nav-liens droite">
                 <?php if (isset($_SESSION['username'])): ?>
-                <li>
-                    <span class="pseudo-connecte">Bonjour, <a href="favoris.php"><?= htmlspecialchars($_SESSION['username']) ?></a></span>
-                </li>
-                <li>
-                    <form method="post" action="logout.php" style="display:inline;">
-                        <button type="submit" class="btn-deconnexion">Se déconnecter</button>
-                    </form>
-                </li>
+                    <li>
+                        <span class="pseudo-connecte">Bonjour, <a href="../../router.php?page=favoris"><?= htmlspecialchars($_SESSION['username']) ?></a></span>
+                    </li>
+                    <li>
+                        <form method="post" action="../../router.php?page=logout" style="display:inline;">
+                            <button type="submit" class="btn-deconnexion">Se déconnecter</button>
+                        </form>
+                    </li>
                 <?php else: ?>
-                    <li><a class="moncompte" href="login.php">Se connecter</a></li>
+                    <li><a class="moncompte" href="../../router.php?page=login">Se connecter</a></li>
                 <?php endif; ?>
-            >
+            </ul>
         </nav>
     </header>
     <main>
@@ -94,9 +93,9 @@
         <div class="footer-contenu">
             <p>&copy; 2025 Ciné.exe. Tous droits réservés.</p>
             <ul class="reseaux-sociaux">
-                <li><a href="https://www.linkedin.com/in/romain-sintas-1028842b5/" target="_blank"><img src="img/linkedin.png" alt="Linkedin"></a></li>
-                <li><a href="https://www.instagram.com/rsintas40/" target="_blank"><img src="img/insta.png" alt="Instagram"></a></li>
-                <li><a href="https://github.com/Romainns" target="_blank"><img src="img/github.png" alt="Github"></a></li>
+                <li><a href="https://www.linkedin.com/in/romain-sintas-1028842b5/" target="_blank"><img src="/img/linkedin.png" alt="Linkedin"></a></li>
+                <li><a href="https://www.instagram.com/rsintas40/" target="_blank"><img src="/img/insta.png" alt="Instagram"></a></li>
+                <li><a href="https://github.com/Romainns" target="_blank"><img src="/img/github.png" alt="Github"></a></li>
             </ul>
         </div>
         <div class="footer-credits">

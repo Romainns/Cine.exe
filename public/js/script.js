@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function estFavori(imdbId) {
         try {
             // Envoie une requête GET vers le script PHP, avec l'identifiant du film ou de la série
-            const response = await fetch('est_favori.php?imdb_id=' + encodeURIComponent(imdbId));
+            const response = await fetch('/router.php?action=est_favori&imdb_id=' + encodeURIComponent(imdbId));
             // Attend la réponse complète du serveur, et la lit comme texte
             const text = await response.text();
             try {   
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         title: item.Title,
                         type: item.Type === "series" ? "Série" : item   .Type === "game" ? "Jeux vidéo" : "Film",
                         year: item.Year,
-                        image: item.Poster !== "N/A" ? item.Poster : "img/defaut.png",
+                        image: item.Poster !== "N/A" ? item.Poster : "../img/defaut.png",
                         lien: `https://www.imdb.com/title/${item.imdbID}/`,
                     }));
 
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const carte = document.createElement("div");
             carte.classList.add("carte");
             carte.innerHTML = `
-                <img src="${item.image}" alt="Affiche de ${item.title}" class="affiche" onerror="this.onerror=null; this.src='img/defaut.png';">
+                <img src="${item.image}" alt="Affiche de ${item.title}" class="affiche" onerror="this.onerror=null; this.src='../img/defaut.png';">
                 <div class="infos">
                     <h3>${item.title} <br>(${item.year})</h3>
                     <p><strong>Type :</strong> ${item.type}</p>
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 time: details.Runtime || "Durée non spécifiée",
                                 actors: details.Actors || "Acteurs non spécifiés",
                                 genre: details.Genre || "Genre non spécifié",
-                                image: details.Poster !== "N/A" ? details.Poster : "img/defaut.png",
+                                image: details.Poster !== "N/A" ? details.Poster : "../img/defaut.png",
                                 lien: `https://www.imdb.com/title/${details.imdbID}/`,
                                 description: details.Plot !== "N/A" ? details.Plot : "Description indisponible.",
                             };
@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
         popupContenu.innerHTML = `
             <span class="fermer">&times;</span>
             <div class="popup-affiche">
-                <img src="${item.image}" alt="Affiche de ${item.title}" class="popup-img" onerror="this.onerror=null; this.src='img/defaut.png';">
+                <img src="${item.image}" alt="Affiche de ${item.title}" class="popup-img" onerror="this.onerror=null; this.src='../img/defaut.png';">
             </div>
             <div class="popup-infos">
                 <h3>${item.title}</h3>
@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 formData.append('affiche', btnFavori.dataset.poster);
 
                 try {
-                    const res = await fetch("favoris_actions.php", {
+                    const res = await fetch("/router.php?action=favoris_actions", {
                         method: "POST",
                         body: formData
                     });
@@ -389,4 +389,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 });
-

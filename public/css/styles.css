@@ -110,7 +110,7 @@ nav a:hover {
 /* Titre */
 
 .titre {
-    background-image: url('img/fond3.jpeg');
+    background-image: url('../img/fond3.jpeg');
     background-size: cover;
     background-position: right 50% bottom 40%;
     height: 300px;
