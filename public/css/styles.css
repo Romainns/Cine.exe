@@ -63,16 +63,6 @@ nav a:hover {
     padding-right: 10px;
 }
 
-.nav-liens span {
-    margin-right: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
-
 .btn-deconnexion {
     background-color: black;
     color: red;
@@ -90,9 +80,17 @@ nav a:hover {
     text-decoration: underline;
 }
 
+.pseudo-connecte {
+    color: white;
+    font-size: 18px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
 /* Navbar - Responsive */
 
-@media (max-width: 730px) {
+@media (max-width: 750px) {
     nav img {
         width: 120px;
     }
@@ -102,8 +100,18 @@ nav a:hover {
     .droite {
         width: 70%;
     }
+    .pseudo-connecte {
+        font-size: 12px;
+    }
+    .pseudo-connecte a {
+        font-size: 12px;
+    }
     .moncompte {
         font-size: 14px;
+    }
+    .btn-deconnexion {
+        font-size: 14px;
+        padding: 3px 8px;
     }
 }
 

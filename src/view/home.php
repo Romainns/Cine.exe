@@ -32,14 +32,13 @@ if (session_status() === PHP_SESSION_NONE) {
                 <li><a href="router.php?page=home">Accueil</a></li>
                 <li><a href="#" id="lien-films">Films</a></li>
                 <li><a href="#" id="lien-series">Séries</a></li>
-                <li><a href="#" id="lien-jeux">Jeux-Vidéo</a></li>
             </ul>
             <ul class="nav-liens droite">
                 <?php if (isset($_SESSION['username'])): ?>
                     <li>
-                        <span class="pseudo-connecte">
-                            Bonjour, <a href="router.php?page=favoris"><?= htmlspecialchars($_SESSION['username']) ?></a>
-                        </span>
+                        <p class="pseudo-connecte">
+                            Bonjour,<a href="router.php?page=favoris"><?= htmlspecialchars($_SESSION['username']) ?></a>
+                        </p>
                     </li>
                     <li>
                         <form method="post" action="router.php?page=logout" style="display:inline;">
