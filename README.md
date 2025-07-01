@@ -26,70 +26,70 @@
 
 ### Arborescence du projet
 
-C:.
-├───database
-├───public
-│   ├───css
-│   ├───img
-│   │   └───affiche
-│   └───js
-├───src
-│   ├───config
-│   ├───service
-│   └───view
-└───vendor
-    ├───composer
-    ├───graham-campbell
-    │   └───result-type
-    │       ├───.github
-    │       │   └───workflows
-    │       ├───src
-    │       └───tests
-    ├───phpoption
-    │   └───phpoption
-    │       ├───.github
-    │       │   └───workflows
-    │       ├───src
-    │       │   └───PhpOption
-    │       ├───tests
-    │       │   └───PhpOption
-    │       │       └───Tests
-    │       └───vendor-bin
-    │           ├───phpstan
-    │           └───psalm
-    ├───symfony
-    │   ├───polyfill-ctype
-    │   ├───polyfill-mbstring
-    │   │   └───Resources
-    │   │       └───unidata
-    │   └───polyfill-php80
-    │       └───Resources
-    │           └───stubs
-    └───vlucas
-        └───phpdotenv
-            ├───.github
-            │   └───workflows
-            ├───src
-            │   ├───Exception
-            │   ├───Loader
-            │   ├───Parser
-            │   ├───Repository
-            │   │   └───Adapter
-            │   ├───Store
-            │   │   └───File
-            │   └───Util
-            ├───tests
-            │   ├───Dotenv
-            │   │   ├───Loader
-            │   │   ├───Parser
-            │   │   ├───Repository
-            │   │   │   └───Adapter
-            │   │   └───Store
-            │   └───fixtures
-            │       └───env
-            └───vendor-bin
-                ├───phpstan
-                └───psalm
+C:.\
+├───database\
+├───public\
+│   ├───css\
+│   ├───img\
+│   │   └───affiche\
+│   └───js\
+├───src\
+│   ├───config\
+│   ├───service\
+│   └───view\
+└───vendor\
+    ├───composer\
+    ├───graham-campbell\
+    │   └───result-type\
+    │       ├───.github\
+    │       │   └───workflows\
+    │       ├───src\
+    │       └───tests\
+    ├───phpoption\
+    │   └───phpoption\
+    │       ├───.github\
+    │       │   └───workflows\
+    │       ├───src\
+    │       │   └───PhpOption\
+    │       ├───tests\
+    │       │   └───PhpOption\
+    │       │       └───Tests\
+    │       └───vendor-bin\
+    │           ├───phpstan\
+    │           └───psalm\
+    ├───symfony\
+    │   ├───polyfill-ctype\
+    │   ├───polyfill-mbstring\
+    │   │   └───Resources\
+    │   │       └───unidata\
+    │   └───polyfill-php80\
+    │       └───Resources\
+    │           └───stubs\
+    └───vlucas\
+        └───phpdotenv\
+            ├───.github\
+            │   └───workflows\
+            ├───src\
+            │   ├───Exception\
+            │   ├───Loader\
+            │   ├───Parser\
+            │   ├───Repository\
+            │   │   └───Adapter\
+            │   ├───Store\
+            │   │   └───File\
+            │   └───Util\
+            ├───tests\
+            │   ├───Dotenv\
+            │   │   ├───Loader\
+            │   │   ├───Parser\
+            │   │   ├───Repository\
+            │   │   │   └───Adapter\
+            │   │   └───Store\
+            │   └───fixtures\
+            │       └───env\
+            └───vendor-bin\
+                ├───phpstan\
+                └───psalm\
 
 ## Installation
 
@@ -106,16 +106,17 @@ C:.
     ```bash
     git clone https://github.com/Romainns/Cine.exe.git
     cd Cine.exe
+    ```
 
-2. Installer les dépendances :
-    composer install
+2. Installer les dépendances :\
+    ```composer install```
 
 3. Configurer le .env :
-    Créer un fichier .env à la racine avec le contenu suivant :
-        DB_PATH=<chemin de la bdd.db>
+    Créer un fichier .env à la racine avec le contenu suivant :\
+        DB_PATH=<chemin de la bdd.db>\
         OMDB_API_KEY=<API_KEY>
 
-4. Démarrer un serveur PHP :
+4. Démarrer un serveur PHP :\
     php -S localhost:8000 -t public
 
 ## Base de données  
