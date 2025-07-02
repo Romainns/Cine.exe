@@ -1,9 +1,10 @@
+<!-- Session -->
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Vérifie que l'utilisateur est connecté
+ // Vérifie que l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../../router.php?page=login');
     exit;

@@ -1,3 +1,4 @@
+<!-- Session -->
 <?php 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -37,7 +38,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php if (isset($_SESSION['username'])): ?>
                     <li>
                         <p class="pseudo-connecte">
-                            Bonjour,<a href="router.php?page=favoris"><?= htmlspecialchars($_SESSION['username']) ?></a>
+                            Bonjour,&nbsp;<a href="router.php?page=favoris"><?= htmlspecialchars($_SESSION['username']) ?></a>
                         </p>
                     </li>
                     <li>
@@ -83,11 +84,8 @@ if (session_status() === PHP_SESSION_NONE) {
             </div>
 
             <div class="catalogue-contenu">
-                <!-- À remplir dynamiquement -->
             </div>
-
             <div class="pagination">
-                <!-- Pagination dynamique -->
             </div>
         </div>
     </main>
