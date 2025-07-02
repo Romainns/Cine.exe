@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
 
             catalogueContenu.appendChild(carte);
-        });
+        }); 
 
         /* Si le bouton "Voir plus" est cliqué */
         document.querySelectorAll(".voir-plus").forEach(btn => {

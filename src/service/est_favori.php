@@ -10,7 +10,7 @@ header('Content-Type: application/json');
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['estFavori' => false]);
     exit;
-}
+} 
 
 // Inclure la connexion à la base
 require_once __DIR__ . '/../config/database.php';

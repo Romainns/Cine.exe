@@ -1,4 +1,4 @@
--- Suppression des tables dans l'ordre inverse des dépendances
+-- Suppression des tables dans l'ordre inverse des dépendances 
 drop table if exists Favori;
 drop table if exists Commentaire;
 drop table if exists Oeuvre_Acteur;

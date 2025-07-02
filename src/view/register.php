@@ -50,7 +50,7 @@
                     <label for="motDePasse">Mot de passe :</label>
                     <input type="password" id="motDePasse" name="motDePasse" placeholder="[Mot de passe]" required>
                     <button type="submit">Créer mon compte</button>
-                </form>
+                </form> 
             </div>
             <!-- Php - gestion de l'inscription -->
             <div class="moncompte-message">

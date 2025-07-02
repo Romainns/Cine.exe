@@ -114,4 +114,4 @@ if (session_status() === PHP_SESSION_NONE) {
     <script>const userIsLoggedIn = <?= isset($_SESSION['user_id']) ? 'true' : 'false' ?>;</script>
     <script src="/js/script.js"></script>
 </body>
-</html>
+</html> 

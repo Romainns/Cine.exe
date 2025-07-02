@@ -1,7 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
-}
+} 
 
 // Chargement des dépendances
 require_once './vendor/autoload.php'; // Si Composer est utilisé (sinon tu peux commenter)

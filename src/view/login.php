@@ -95,5 +95,5 @@
             <p>Développé par <i>Romain Sintas</i></p>
         </div>
     </footer>
-</body>
+</body> 
 </html>

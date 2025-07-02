@@ -104,4 +104,4 @@ $favoris = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </footer>
 </body>
-</html>
+</html> 

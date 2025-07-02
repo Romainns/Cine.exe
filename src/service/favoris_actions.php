@@ -10,7 +10,7 @@ header('Content-Type: application/json');
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Vous devez être connecté']);
     exit;
-}
+} 
 
 // Inclure la connexion à la base de données
 require_once __DIR__ . '/../config/database.php';
